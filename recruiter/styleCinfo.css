@@ -1,0 +1,87 @@
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+
+.box1{
+width:23vw;
+background-color:aquamarine;
+height: 100vh;
+font-size: 26px;
+font-weight: 600;
+text-align: center;
+
+}
+.content{margin-left:3vw;
+    margin-top:8vh;
+    text-align: left;
+}
+p{
+    padding:8px;
+}
+.box2{
+Height:100vh;
+width:80vw;
+}
+.container{
+    display: flex;
+}
+img{ width:50px;
+    height:50px;
+    }
+    .navbar{
+        position: fixed;
+        top:0;
+        width:100vw;
+    display:flex;
+    justify-content: space-between;
+
+    height:10vh;
+    background-color:rgb(116, 197, 116);
+    }
+
+    .profile{ margin:15px;
+        margin-top:80px;
+        font-size:40px;
+        font-weight: 500;
+    }
+    .basicinfo{
+        font-size: 24px;
+         margin:5px;
+    }
+    hr{
+         margin:5px;
+    }
+    form{
+        font-size: 20px;
+    }
+    form div{ 
+        margin:20px; }
+
+        .maindiv{
+            display:flex;
+        }
+
+        .maindiv div{
+            width:40%;
+            display: flex;
+        }
+
+        button{ padding-left:11px;
+            padding-right:11px;
+            padding-top: 4px;
+            padding-bottom: 4px;
+            font-size:18px;
+            margin-top:30px;
+            margin-left:120px;
+            background-color: lightgreen;
+        } 
+        .logOut{ 
+            font-size: 40px;
+            margin-left:50vw;
+        }
+        input{
+            padding:1px 5px;
+            border-radius: 5px;
+        }
