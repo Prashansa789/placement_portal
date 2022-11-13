@@ -133,7 +133,8 @@ $conn=null;
 <body>
     <div class="container">
     <div class="box1" ><div class="content">
- <p>Home</p><p>Registration</p><p>preference List</p><p>Job Application</p><p>User Guide</p></div>
+ <p>Home</p><p>Registration</p><p>preference List</p><p>Job Application</p><p>User Guide</p>
+<a href="job_ap.php">Job Application</a></div>
     </div>
 
 

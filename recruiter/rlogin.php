@@ -3,7 +3,7 @@
 session_start();
 
 // check if the user is already logged in
-if(isset($_SESSION['email']))
+if(isset($_SESSION['remail']))
 {
     header("location: recruiter.php");
     exit;
@@ -27,29 +27,32 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
 
 if(empty($err))
 {
-    $sql = "SELECT id, Cemail, Cpassword FROM company_login WHERE Cemail = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "s", $param_email);
-    $param_email = $email;
+    $sql = "SELECT id, Cemail, Cpassword FROM company_login WHERE Cemail = '$email'";
+    $stmt = $conn->prepare($sql);
     
     
     // Try to execute this statement
-    if(mysqli_stmt_execute($stmt)){
-        mysqli_stmt_store_result($stmt);
-        if(mysqli_stmt_num_rows($stmt) == 1)
+    if($stmt->execute()){
+        // mysqli_stmt_store_result($stmt);
+        if($stmt->rowCount() == 1)
                 {
-                    mysqli_stmt_bind_result($stmt, $id, $email, $hashed_password);
+                    // mysqli_stmt_bind_result($stmt, $id, $email, $hashed_password);
+                    if($row = $stmt->fetch()){
+                        $id = $row['id'];
+                        $email = $row['Cemail'];
+                        $hashed_password = $row['Cpassword'];
+                    }
                     
-                    if(mysqli_stmt_fetch($stmt))
+                    if($stmt->fetch())
                     $param_password = password_hash($password, PASSWORD_DEFAULT);
                     {
                         if(password_verify($password, $hashed_password))
                         {
                             // this means the password is corrct. Allow user to login
                             session_start();
-                            $_SESSION["email"] = $email;
-                            $_SESSION["id"] = $id;
-                            $_SESSION["loggedin"] = true;
+                            $_SESSION["remail"] = $email;
+                            $_SESSION["rid"] = $id;
+                            $_SESSION["rloggedin"] = true;
 
                             //Redirect user to welcome page
                             header("location: recruiter.php");

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Info</title>
     <link rel="stylesheet" href="styleCinfo.css"> 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <style>
 
         </style>
@@ -13,7 +14,9 @@
 <body>
     <div class="container">
     <div class="box1" ><div class="content">
- <p>Home</p><p>Registration</p><p>preference List</p><p>Job Application</p><p>User Guide</p></div>
+ <p>Home</p><p>Registration</p><p>preference List</p>
+    <p>Job Application</p><p>User Guide</p></div>
+ <a href="rlogout.php">LogOut</a>
     </div>
 
 
@@ -39,15 +42,48 @@
   <div><label for="vacancy">Vacancy:</label>
   <input type="number" id="vacancy" name="vacancy"></div></div>
 
-  <div class="maindiv"><div><label for="Ecpi">Cpi Criteria:</label>
-  <input type="text" id="Ecpi" name="Ecpi"></div>
-  <div><label for="EligibleDept">Eligible Department:</label>
-  <input type="text" id="EligibleDept" name="EligibleDept"></div></div>
+  <div class="maindiv">
 
-  <div class="maindiv"> <div><label for="EligibleCourse">Eligible Course:</label>
-  <input type="text" id="EligibleCourse" name="EligibleCourse"></div></div>
+  <div class="eligible_dept">
+                                <label>Eligible Departments</label>
+                                <!-- <input type="text" name="eligible_dept" placeholder="Enter Eligible Departments" required> -->
+                                <select name="eligible_dept[]" class="multiselect" required multiple>
+                                    <!-- <option value="" disabled selected>Select Eligible Departments</option> -->
+                                    <option value="Mathematics">Mathematics</option>
+                                    <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+                                    <option value="Physics">Physics</option>
+                                    <option value="Chemistry">Chemistry</option>
+                                    <option value="Electronics & Electrical Engineering">Electronics & Electrical Engineering</option>
+                                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                    <option value="Civil Engineering">Civil Engineering</option>
+                                    <option value="Design">Design</option>
+                                    <option value="Chemical Engineering">Chemical Engineering</option>
+                                </select>
+                            </div>
+                            <div class="eligible_course">
+                                <label>Eligible Courses</label>
+                                <!-- <input type="text" name="eligible_course" placeholder="Enter Eligible Courses" required> -->
+                                <select name="eligible_course[]" class="multiselect" required multiple>
+                                    <!-- <option value="" disabled selected>Select Eligible Course</option> -->
+                                    <option value="MSc Mathematics & Computing">MSc Mathematics & Computing</option>
+                                    <option value="MSc Physics">MSc Physics</option>
+                                    <option value="MSc Chemistry">MSc Chemistry</option>
+                                    <option value="BTech CSE">BTech CSE</option>
+                                    <option value="BTech EEE">BTech EEE</option>
+                                    <option value="BTech Mechanical Engineering">BTech Mechanical Engineering</option>
+                                    <option value="BTech Civil Engineering">BTech Civil Engineering</option>
+                                    <option value="Design (BDes)">Design (BDes)</option>
+                                    <option value="BTech Chemical Engineering">BTechChemical Engineering</option>
+                                    <option value="MTech CSE">MTech CSE</option>
+                                    <option value="MTech EEE">MTech EEE</option>
+                                </select>
+                            </div>
+  </div>
 
-  <div class="Examination" style="font-size:26px;"  >Examination</div><hr>
+  <div class="maindiv"> <div><label for="Ecpi">Cpi Criteria:</label>
+  <input type="text" id="Ecpi" name="Ecpi"></div></div>
+
+  <div class="Examination" style="font-size:26px;">Examination</div><hr>
   <div class="maindiv"> <div><label for="ExamDate">Exam Date:</label>
   <input type="date" id="ExamDate" name="ExamDate"></div>
   <div><label for="ExamDuration">Exam Duration:</label>
@@ -64,11 +100,18 @@
   <button type="submit" value="Submit">Save changes</button></div>
 </div>
 
-
 </form>  
                 </div>
          </div>
          
          </div>
+         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script >
+      $(document).ready(function(){
+    $(".multiselect").select2({
+    // maximumSelectionLength: 2
+});});
+    </script>
 </body>
 </html>

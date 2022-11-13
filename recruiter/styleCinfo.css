@@ -33,7 +33,7 @@ img{ width:50px;
     .navbar{
         position: fixed;
         top:0;
-        width:100vw;
+        width:74vw;
     display:flex;
     justify-content: space-between;
 
@@ -81,7 +81,7 @@ img{ width:50px;
             font-size: 40px;
             margin-left:50vw;
         }
-        input{
+        input, select{
             padding:1px 5px;
             border-radius: 5px;
         }

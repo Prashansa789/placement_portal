@@ -76,7 +76,7 @@ if(empty($email_err) && empty($password_err) && empty($confirm_password_err))
         // Try to execute the query
         if ($stmt->execute())
         {
-            header("location: login.php");
+            header("location: rlogin.php");
         }
         else{
             echo "Something went wrong... cannot redirect!";
