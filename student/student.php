@@ -4,6 +4,10 @@ session_start();
 if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!= true){
     header("location: login.php");
 }
+if(isset($_SESSION['email']))
+{
+    $email=$_SESSION['email'];
+}
 ?>
 
 <?php 
@@ -12,107 +16,76 @@ $fname_err=$lname_err=$roll_err=$semail_err=$pemail_err=$dob_err=$cpi_err=$dept_
 if ($_SERVER['REQUEST_METHOD'] == "POST"){
 
     // Check if email is empty
-    if(empty(trim($_POST["fname"]))){
-        $fname_err = "First name cannot be blank";
-    }
-
-    else{
-        $fname=trim($_POST['fname']);
-    }
-    $lname=trim($_POST['lname']);
-
-    if(empty(trim($_POST["email1"]))){
-        $semail_err = "Email name cannot be blank";
-    }
-
-    else{
-        $semail=trim($_POST['email1']);
-    }
-
-    if(empty(trim($_POST["email2"]))){
-        $pemail_err = "There should be an alternative mail";
-    }
-
-    else{
-        $pemail=trim($_POST['email2']);
-    }
-    if(empty(trim($_POST["rollno"]))){
-        $roll_err = "Roll No cannot be blank";
-    }
-
-    else{
-        $roll=trim($_POST['rollno']);
-    }
-    if(empty(trim($_POST["phnno"]))){
-        $phno_err = "Contact No cannot be blank";
-    }
-
-    else{
-        $phno=trim($_POST['phnno']);
-    }
-    if(empty(trim($_POST["age"]))){
-        $gender_err = "Gender cannot be blank";
-    }
-
-    else{
-        $gender=trim($_POST['age']);
-    }
-    if(empty(trim($_POST["dob"]))){
-        $dob_err = "Date Of Birth cannot be blank";
-    }
-
-    else{
-        $dob=trim($_POST['dob']);
-    }
-
-    if(empty(trim($_POST["dept"]))){
-        $dept_err = "Department cannot be blank";
-    }
-
-    else{
-        $dept=trim($_POST['dept']);
-    }
-
-    if(empty(trim($_POST["cpi"]))){
-        $cpi_err = "cpi cannot be blank";
-    }
-
-    else{
-        $cpi=trim($_POST['cpi']);
-    }
-    if(empty(trim($_POST["course"]))){
-        $course_err = "course cannot be blank";
-    }
-
-    else{
-        $course=trim($_POST['course']);
-    }
-
-
+    $fname=$_POST["fname"];
+    $lname=$_POST["lname"];
+    $gender=$_POST["age"];
+    $dob=$_POST["dob"];
+    $cpi=$_POST["cpi"];
+    $dept=$_POST["eligible_dept"];
+    $course=$_POST["eligible_course"];
+    $phno=$_POST["phnno"];
     
 
 
 // Check for password
+//rollno	Fname	Lname	Semail	gender	dob	cpi	dept	course	phNumber	appliNo
+
+// If there were no errors, go ahead and insert into the data
+$sql1= "SELECT rollno FROM student WHERE Semail = '$email'";
+$stmt1 = $conn->prepare($sql1);
+if($stmt1){
+    if($stmt1->execute()){
+   //mysqli_stmt_store_result($stmt);
+     if($stmt1->rowCount() == 1)
+      {
+       $sql2="UPDATE student SET Fname='$fname',Lname='$lname',Semail='$email',gender='$gender',dob='$dob',cpi='$cpi',dept='$dept',course='$course',phNumber='$phno' where Semail='$email'"; 
+       $result=$conn->query($sql2);
+      
 
 
-// If there were no errors, go ahead and insert into the database
-
-if(empty($fname_err) && empty($lname_err) && empty($roll_err) && empty($semail_err) && empty($pemail_err) && empty($dob_err) && empty($cpi_err) && empty($dept_err) && empty($course_err) && empty($phno_err) && empty($gender_err)  )
-{
-    $sql = "INSERT INTO student (Fname, Lname,rollno,Semail,dob,cpi,dept,course,phNumber,gender) VALUES ('$fname','$lname','$roll','$semail','$dob','$cpi','$dept','$course','$phno','$gender')";
-    $stmt = $conn->prepare($sql);
-    if ($stmt)
-    {
-        
-       $stmt->execute();
-
-    }
-   // mysqli_stmt_close($stmt);
+      }
+   else if($stmt1->rowCount() == 0){
+     $sql2="INSERT INTO student (Fname,Lname,Semail,gender,dob,cpi,dept,course,phNumber) VALUES('$fname','$lname','$email','$gender','$dob','$cpi','$dept','$course','$phno') "; 
+     $result=$conn->query($sql2);
+   }
+  // $_SESSION['rollno']=; 
+ }
 }
+
+}
+
+   $sql4="SELECT * FROM student WHERE Semail='$email'";
+   $result4=$conn->query($sql4);
+   if($result4->rowCount() > 0){
+   $row4=$result4->fetch(PDO::FETCH_ASSOC);
+   $fname=$row4["Fname"];
+   $lname=$row4["Lname"];
+   $Semail=$row4["Semail"];
+   $gender=$row4["gender"];
+   $dob=$row4["dob"];
+   $cpi=$row4["cpi"];
+   $dept=$row4["dept"];
+   $course=$row4["course"];
+   $phno=$row4["phNumber"];
+   $_SESSION['rollno']=$row4["rollno"] ;
+   $_SESSION['eligible_dept']=$dept;
+   $_SESSION['eligible_course']=$course; 
+   }
+
+
+
+
+
+ 
+
 $conn=null;
 
-}
+
+
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -123,25 +96,34 @@ $conn=null;
     <title>Student Info</title>
     <link rel="stylesheet" href="styleinfo.css"> 
     <style>
-.multivalued{
-    display:flex;
+input{
+    font-size:18px;
+}
+a{ font-size:30px;
+    text-decoration: none;
+    color:blue;
 }
         </style>
 </head>
 <body>
     <div class="container">
-    <div class="box1" ><div class="content">
- <p>Home</p><p>Registration</p><p>preference List</p><p>Job Application</p><p>User Guide</p>
-<a href="job_app1.php">Job Application</a></div>
+    <div class="box1" >
+    <img src="https://www.iitg.ac.in/ace/ACE/Assets/IITG_White.png"><div class="content">
+ <!-- <p>Home</p> -->
+<p><a href="job_app1.php">Job Application</a></p>
+<p><a href="got_offer.php">Got Offer</a></p>
+
+</div>
     </div>
 
 
     <div class="box2" >
         <nav class="navbar">
-           <div> <img src="https://www.iitg.ac.in/ace/ACE/Assets/IITG_White.png">
-            <h2 >Placement Portal</h2></div>
+           <div>
+            <h1>Placement Portal</h1></div>
             <!-- <div class="logOut"> -->
-            <a href="logout.php">LogOut</a>
+            <button style="background-color:aquamarine"><a href="logout.php">LogOut</a></button>
+            <!-- <a href="logout.php">LogOut</a> -->
 </nav>
             <div class="profile"  >Profile</div>
             <div class="basicinfo">Basic Information</div><hr>
@@ -149,19 +131,18 @@ $conn=null;
                 <form action="" method="POST">
                     <div>
   <div class="maindiv"> <div><label for="fname">First Name:</label>
-  <input type="text" id="fname" name="fname"></div>
+  <input type="text" id="fname" name="fname" value="<?php echo $fname   ?> "></div>
   <div><label for="lname">Last Name:</label>
-  <input type="text" id="lname" name="lname"></div></div>
+  <input type="text" id="lname" name="lname" value="<?php echo $lname   ?> "></div></div>
 
   <div class="maindiv"><div><label for="iitgmail">IITG Email:</label>
-  <input type="email" id="email1" name="email1"></div>
-  <div><label for="personalemail">Personal Email:</label>
-  <input type="email" id="email2" name="email2"></div></div>
+  <input type="email" id="email1" name="email1" value="<?php echo $email   ?> " readonly></div>
+  <!-- //<div><label for="personalemail">Personal Email:</label>
+  <input type="email" id="email2" name="email2"></div></div> -->
 
-  <div class="maindiv"><div><label for="roolno">Roll No:</label>
-  <input type="text" id="rollno" name="rollno"></div>
+  
   <div><label for="phoneNo">Mobile Number:</label>
-  <input type="text" id="phoneNo" name="phnno"></div></div>
+  <input type="text" id="phoneNo" name="phnno" value="<?php echo $phno   ?> "></div></div>
 
  <div class="maindiv"> <div><span>Gender:</span>
   <input type="radio" id="male" name="age" value="male">
@@ -172,16 +153,14 @@ $conn=null;
   <label for="others">Others</label></div>
   <div><label for="dob">Date of birth:</label>
   <input type="date" id="dob" name="dob"></div></div>
-<!-- <div class="maindiv"><div><label for="dept">Department:</label>
-  <input type="text" id="dept" name="dept"></div>
-  <div><label for="course">Course:</label>
-  <input type="text" id="course" name="course"></div></div> -->
-  <div class="multivalued">
-  <div class="eligibledept_course">
+
+
+  <div class="multivalued" >
+  <div class="eligibledept_course" style="display:flex;">
                             <div class="eligible_dept">
                                 <label><div>Eligible Departments</div></label>
                                 <!-- <input type="text" name="eligible_dept" placeholder="Enter Eligible Departments" required> -->
-                                <select name="dept" class="multiselect" required >
+                                <select name="dept" class="multiselect" style="font-size:18px;" required >
                                     <!-- <option value="" disabled selected>Select Eligible Departments</option> -->
                                     <option value="Mathematics">Mathematics</option>
                                     <option value="Computer Science and Engineering">Computer Science and Engineering</option>
@@ -194,10 +173,10 @@ $conn=null;
                                     <option value="Chemical Engineering">Chemical Engineering</option>
                                 </select>
                             </div>
-                            <div class="eligible_course">
+                            <div class="eligible_course" style="padding-left:200px;" >
                                 <label><div>Eligible Courses</div></label>
                                 <!-- <input type="text" name="eligible_course" placeholder="Enter Eligible Courses" required> -->
-                                <select name="course" class="multiselect" required >
+                                <select name="course" class="multiselect" style="font-size:18px;" required >
                                     <!-- <option value="" disabled selected>Select Eligible Course</option> -->
                                     <option value="MSc Mathematics & Computing">MSc Mathematics & Computing</option>
                                     <option value="MSc Physics">MSc Physics</option>
@@ -214,10 +193,9 @@ $conn=null;
                             </div>
                         </div></div>
 
-  
 
- <div class="maindiv"> <div><label for="cpi">CPI:</label>
-  <input type="real" id="cpi" name="cpi">
+ <div class="maindiv"> <div><label for="cpi" value="<?php echo $cpi   ?> ">CPI:</label>
+  <input type="text" id="cpi" name="cpi">
   </div>
   <button type="submit" value="Submit">Save changes</button></div>
 
@@ -228,33 +206,3 @@ $conn=null;
          </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

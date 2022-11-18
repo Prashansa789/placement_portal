@@ -19,7 +19,9 @@ else {
    <link rel="stylesheet" href="student/styles.css">
 
 <style>
-
+.heading{ font-size:26px;
+     margin-right:700px;
+}
 </style>
 
 </head>
@@ -27,7 +29,7 @@ else {
 <div class="all-content">
 <nav class="navbar">
 <img src="https://www.iitg.ac.in/ace/ACE/Assets/IITG_White.png">
-<h3>Placement Portal</h3>
+<h1 class="heading" style="margin-left:5px">Placement Portal</h1>
 
 
 </nav>
@@ -46,6 +48,6 @@ else {
 </div>
 
 <footer class="footer">
-contact</footer>
+<h4>Contact :admin@iitg.ac.in<br> Phone No: XXX</h></footer>
 </div>
 </body>

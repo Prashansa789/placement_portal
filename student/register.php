@@ -115,7 +115,7 @@ button{
     <div class="all-content">
 <nav class="navbar">
 <img src="https://www.iitg.ac.in/ace/ACE/Assets/IITG_White.png">
-<h3>Placement Portal</h3>
+<h3 class="heading">Placement Portal</h3>
 </nav>
 
  <h1 class="heading">Welcome To IITG Placement Portal</h1>
@@ -142,5 +142,5 @@ button{
 </div>
 
 <footer class="footer">
-contact</footer></div>
+<h4>Contact :admin@iitg.ac.in<br> Phone No: XXX</h></footer></div>
 </body>

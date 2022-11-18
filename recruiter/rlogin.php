@@ -92,6 +92,9 @@ button{
     margin-top:20px;
     margin-right:110px;
 }
+img{ width:80px;
+    height:80px;
+    }
 </style>    
 
 
@@ -101,7 +104,7 @@ button{
     <div class="all-content">
 <nav class="navbar">
 <img src="https://www.iitg.ac.in/ace/ACE/Assets/IITG_White.png">
-<h3>Placement Portal</h3>
+<h1 class="heading" style="justify-content:center;">Placement Portal</h1>
 
 
 </nav>
@@ -120,6 +123,7 @@ button{
   <button type="submit">Submit</button>
   <span> <?php echo"<br>". "<h5>$err</h5>"?></span>
   <p>New User? <a href="rregister.php">Register</a> </p>
+  <p>Trouble Logging in ? <a href="mailto:admin@iitg.ac.in">Contact Admin</a> </p>
   
  
 </form>
@@ -127,6 +131,6 @@ button{
 </div>
 
 <footer class="footer">
-contact</footer>
+<h4>Contact :admin@iitg.ac.in<br> Phone No: XXX</h></footer>
     </div>
 </body>

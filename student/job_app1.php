@@ -33,23 +33,27 @@ tr:nth-child(even) {
 </style> 
 </head>
 <body>
+ 
 <div class="container">
-    <div class="box1" ><div class="content">
- <p>Home</p><p>Registration</p><p>preference List</p><p>Job Application</p><p>User Guide</p>
-<a href="job_ap.php">Job Application</a>
-<p><a href="got_offer.php">Get Job</a></p></div>
+    <div class="box1" >
+    <img src="https://www.iitg.ac.in/ace/ACE/Assets/IITG_White.png"><div class="content">
+ <!-- <p>Home</p><p>Registration</p><p>preference List</p><p>Job Application</p><p>User Guide</p> -->
+<a href="student.php">Home</a>
+<p><a href="got_offer.php">Got Offer</a></p></div>
     </div>
     
     <div class="box2" >
         <nav class="navbar">
-           <div> <img src="https://www.iitg.ac.in/ace/ACE/Assets/IITG_White.png">
-            <h2 >Placement Portal</h2></div>
+           <div> 
+            <h1>Placement Portal</h1></div>
+            <button style="background-color:aquamarine"><a href="logout.php">LogOut</a></button>
             <!-- <div class="logOut"> -->
-            <a href="logout.php">LogOut</a>
-</nav>
-<form action="logout.php" method="POST">
+            <!-- <a href="logout.php">LogOut</a> -->
+</nav><br>
+<h1>Offered Jobs</h1><br>
+<!-- <form action="logout.php" method="POST">
 <button type="submit">Log out</button>
-</form>
+</form> -->
 <div class="Container">
     <?php
     require_once "../config.php";
@@ -82,6 +86,7 @@ tr:nth-child(even) {
          echo "<th>Job ID</th>";
          echo "<th>Company Name</th>";
          echo "<th>Job Profile</th>";
+         echo "<th>Salary</th>";
          echo "<th>Exam Details</th>";
          echo "<th>Apply</th>";
         //  echo "<th>Withdraw</th>";
@@ -117,6 +122,7 @@ tr:nth-child(even) {
           
             echo "<td>" . $cname . "</td>";
             echo "<td>" . $row["job_title"] . "</td>";
+            echo "<td>" . $row["salary"] . "</td>";
             // echo "<td>" . $row["id"] . "</td>";
            $s="SELECT * FROM examination WHERE jobid='$jobid'";
            $s1=$conn->query($s);
@@ -135,12 +141,12 @@ tr:nth-child(even) {
             if($display){echo '<td><form action="" method="POST"><input type="hidden" name="applyId" value=' . $row["jobid"] . '>
                             <input type="hidden" name="applyRoll" value=' . $roll . '>
                             <input type="hidden" name="applyCid" value=' . $cid . '>
-                   <input type="submit" class="btn" name="apply" value="Apply"></form></td>';
+                   <input type="submit" style="border-radius:0px; font-size:18px; color:blue;" class="btn" name="apply" value="Apply"></form></td>';
             }
             else{echo '<td><form action="" method="POST"><input type="hidden" name="withdrawId" value=' . $row["jobid"] . '>
                      <input type="hidden" name="withdrawRoll" value=' . $roll . '>
                      <input type="hidden" name="withdrawCid" value=' . $cid . '>
-                  <input type="submit" class="btn" name="withdraw" value="Withdraw"></form></td>';
+                  <input type="submit" style="border-radius:0px; font-size:18px; color:blue;" class="btn" name="withdraw" value="Withdraw"></form></td>';
             echo "</tr>";
             }
          }}

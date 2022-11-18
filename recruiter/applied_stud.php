@@ -15,7 +15,7 @@ if(isset($_SESSION['remail']))
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Info</title>
-    <link rel="stylesheet" href="styleinfo.css">
+    <link rel="stylesheet" href="styleInfo.css">
     <style>
 table {
   font-family: arial, sans-serif;
@@ -32,15 +32,44 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+a{
+  text-decoration: none;
+  color:blue;
+}
 </style> 
 </head>
 <body>
+ 
+<div class="container">
+    <div class="box1" ><div class="content">
+    <img src="https://www.iitg.ac.in/ace/ACE/Assets/IITG_White.png">
+ <p><a href="recruiter.php">Home</a></p>
+ <p><a href="job1.php">Post Job</a></p>
+ <p><a href="job_details.php">Job Details</a></p>
+ 
+
+<!-- <a href="job_ap.php">Job Application</a> -->
+</div>
+    </div>
     
-<a href="rlogout.php">LogOut</a>
+    <div class="box2" >
+        <nav class="navbar">
+           <div>
+            <h1 >Placement Portal</h1></div>
+            <!-- <div class="logOut"> -->
+            <!-- <a href="logout.php">LogOut</a> -->
+            <button style="background-color:aquamarine"><a href="rlogout.php">LogOut</a></button>
+
+
+</nav>
+<br>
+<h1 style="padding-left:440px">Applied Students</h1><br><br>
+<!-- <a href="rlogout.php">LogOut</a> -->
 <?php
 
     require_once "../config.php";
 
+   
 
     if(isset($_REQUEST['give_job'])){
         $jobid1=$_REQUEST['jobid'];
@@ -51,11 +80,11 @@ tr:nth-child(even) {
       $sql3="INSERT INTO gets (jobid,rollno) VALUES ('$jobid1','$rollno1')";
       $stm= $conn->query($sql3);}
       $stm=null;
-      $conn=null;
+    
       }
 
     $cid="";
-    $sql5= "SELECT * FROM company where Cemail='$email'";
+    $sql5= "SELECT Cid FROM company where Cemail='$email'";
     $s1=$conn->query($sql5);
     if($e=$s1->fetch()){
      $cid=$e["Cid"]; }
@@ -105,10 +134,27 @@ tr:nth-child(even) {
              echo "<td>" . $semail . "</td>"; 
              echo"<td>".$Scontact. "</td>";
             //  echo"<td>".$examDt."\n".$duration."\n".$examType. "</td>";
-             echo '<td><form action="" method="POST">
+
+
+            $stmt7=$conn->query("SELECT jobid,rollno FROM gets WHERE jobid='$jobid' AND rollno='$rollno'");
+            if($stmt7->rowCount()>0){
+             $display=false;
+            }
+            else $display=true;
+
+
+            if($display) echo '<td><form action="" method="POST">
              <input type="hidden" name="jobid" value=' . $jobid . '>
                             <input type="hidden" name="rollno" value=' . $rollno . '>
-                   <input type="submit" class="btn" name="give_job" value="Give Job"></form></td>'; 
+                   <input style="color:blue; font-size:18px; border-radius:0px" type="submit" class="btn" name="give_job" value="Give Job"></form></td>'; 
+            else{
+
+              echo '<td><form action="" method="POST">
+              <input type="hidden" name="jobid" value=' . $jobid . '>
+                             <input type="hidden" name="rollno" value=' . $rollno . '>
+                    <input style="color:blue; font-size:18px; border-radius:0px" type="submit" class="btn" name="give_job" value="Already Given"></form></td>';
+
+            }
           }
     }
 
@@ -116,9 +162,8 @@ tr:nth-child(even) {
 
 
     }
-//   echo "In PHP";
- 
+
     ?>
- <h1>Chutiya</h1>
+
 </body>
 </html>

@@ -7,7 +7,8 @@ if(!isset($_SESSION['rloggedin']) || $_SESSION['rloggedin']!= true){
 
 require_once "../config.php";
 $login_email = $_SESSION['remail'];
-$companyID = $_SESSION['rid'];
+$companyID = $_SESSION['cid'];
+echo"$companyID";
 
 $jobtitle = "";
 $jobdesc = "";
@@ -72,18 +73,23 @@ $conn = null;
     <link rel="stylesheet" href="styleCinfo.css"> 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <style> 
+    ul li a{
+        text-decoration: none;
+        color:blue;
+    }
 </style>
 </head>
 <body>
     <div class="container">
-    <div class="box1" ><div class="content">
+    <div class="box1" ><img src="https://www.iitg.ac.in/ace/ACE/Assets/IITG_White.png">
+        <div class="content" style="color:blue;">
         <ul class="left_list">
  <li><a href="recruiter.php">Home</a></li>
- <li> <a href="job.php">Job Details</a></li>
- <li><a href="#">preference List</a></li>
- <li><a href="#">Job Application</a></li>
- <li> <a href="#">User Guide</a></li>
- <li> <a href="rlogout.php">LogOut</a></li>
+ <li> <a href="job_details.php">Job Details</a></li>
+<!-- <li><a href="#">preference List</a></li> -->
+ <li><a href="applied_stud.php">Applied Students</a></li>
+ <!-- <li> <a href="#">User Guide</a></li> -->
+ <!-- <li> <a href="rlogout.php">LogOut</a></li> -->
 </ul>
 </div>
     </div>
@@ -91,8 +97,9 @@ $conn = null;
 
     <div class="box2" >
         <nav class="navbar">
-            <img src="https://www.iitg.ac.in/ace/ACE/Assets/IITG_White.png">
-            <h3 >Placement Portal</h3><div class="logOut">
+            <!-- <img src="https://www.iitg.ac.in/ace/ACE/Assets/IITG_White.png"> -->
+            <h1 style="font-size:27px;">Placement Portal</h1>
+            <div class="logOut">
             <button><a href="rlogout.php">LogOut</a></button></div>
             </nav>
             <div class="profile"  >JOB</div><hr>
