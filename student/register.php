@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
         $email_err = "email cannot be blank";
     }
     else{
-        $sql = "SELECT id FROM student_login WHERE Semail = :Semail";
+        $sql = "SELECT sid FROM student_login WHERE Semail = :Semail";
         $stmt = $conn->prepare($sql);
         if($stmt)
         {

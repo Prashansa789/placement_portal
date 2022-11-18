@@ -65,8 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
         $dob=trim($_POST['dob']);
     }
 
-
-
     if(empty(trim($_POST["dept"]))){
         $dept_err = "Department cannot be blank";
     }
@@ -116,8 +114,6 @@ $conn=null;
 }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -127,14 +123,16 @@ $conn=null;
     <title>Student Info</title>
     <link rel="stylesheet" href="styleinfo.css"> 
     <style>
-
+.multivalued{
+    display:flex;
+}
         </style>
 </head>
 <body>
     <div class="container">
     <div class="box1" ><div class="content">
  <p>Home</p><p>Registration</p><p>preference List</p><p>Job Application</p><p>User Guide</p>
-<a href="job_ap.php">Job Application</a></div>
+<a href="job_app1.php">Job Application</a></div>
     </div>
 
 
@@ -174,11 +172,49 @@ $conn=null;
   <label for="others">Others</label></div>
   <div><label for="dob">Date of birth:</label>
   <input type="date" id="dob" name="dob"></div></div>
-
-  <div class="maindiv"><div><label for="dept">Department:</label>
+<!-- <div class="maindiv"><div><label for="dept">Department:</label>
   <input type="text" id="dept" name="dept"></div>
   <div><label for="course">Course:</label>
-  <input type="text" id="course" name="course"></div></div>
+  <input type="text" id="course" name="course"></div></div> -->
+  <div class="multivalued">
+  <div class="eligibledept_course">
+                            <div class="eligible_dept">
+                                <label><div>Eligible Departments</div></label>
+                                <!-- <input type="text" name="eligible_dept" placeholder="Enter Eligible Departments" required> -->
+                                <select name="dept" class="multiselect" required >
+                                    <!-- <option value="" disabled selected>Select Eligible Departments</option> -->
+                                    <option value="Mathematics">Mathematics</option>
+                                    <option value="Computer Science and Engineering">Computer Science and Engineering</option>
+                                    <option value="Physics">Physics</option>
+                                    <option value="Chemistry">Chemistry</option>
+                                    <option value="Electronics & Electrical Engineering">Electronics & Electrical Engineering</option>
+                                    <option value="Mechanical Engineering">Mechanical Engineering</option>
+                                    <option value="Civil Engineering">Civil Engineering</option>
+                                    <option value="Design">Design</option>
+                                    <option value="Chemical Engineering">Chemical Engineering</option>
+                                </select>
+                            </div>
+                            <div class="eligible_course">
+                                <label><div>Eligible Courses</div></label>
+                                <!-- <input type="text" name="eligible_course" placeholder="Enter Eligible Courses" required> -->
+                                <select name="course" class="multiselect" required >
+                                    <!-- <option value="" disabled selected>Select Eligible Course</option> -->
+                                    <option value="MSc Mathematics & Computing">MSc Mathematics & Computing</option>
+                                    <option value="MSc Physics">MSc Physics</option>
+                                    <option value="MSc Chemistry">MSc Chemistry</option>
+                                    <option value="BTech CSE">BTech CSE</option>
+                                    <option value="BTech EEE">BTech EEE</option>
+                                    <option value="BTech Mechanical Engineering">BTech Mechanical Engineering</option>
+                                    <option value="BTech Civil Engineering">BTech Civil Engineering</option>
+                                    <option value="Design (BDes)">Design (BDes)</option>
+                                    <option value="BTech Chemical Engineering">BTechChemical Engineering</option>
+                                    <option value="MTech CSE">MTech CSE</option>
+                                    <option value="MTech EEE">MTech EEE</option>
+                                </select>
+                            </div>
+                        </div></div>
+
+  
 
  <div class="maindiv"> <div><label for="cpi">CPI:</label>
   <input type="real" id="cpi" name="cpi">
@@ -192,3 +228,33 @@ $conn=null;
          </div>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

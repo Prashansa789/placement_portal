@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
 
 if(empty($err))
 {
-    $sql = "SELECT id, Semail, Spassword FROM student_login WHERE Semail = '$email'";
+    $sql = "SELECT sid, Semail, Spassword FROM student_login WHERE Semail = '$email'";
     $stmt = $conn->prepare($sql);
     
     

@@ -6,6 +6,7 @@ if(!isset($_SESSION['rloggedin']) || $_SESSION['rloggedin']!= true){
 }
 ?>
 
+
 <?php 
 $cname=$cemail=$location1=$location2=$contact="";
 $cemail=$_SESSION['remail'];
@@ -13,13 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
          $cname=trim($_POST['cname']);
          $location1=trim($_POST['location1']);
          $location2=trim($_POST['location2']);
-          $contact=trim($_POST['contact']) ; 
+          $contact=trim($_POST['contact']); 
   
    // If there were no errors, go ahead and insert into the database
 
-
     $sql = "INSERT INTO company (CName,Cemail,contact) VALUES ('$cname','$cemail','$contact')";
-   
     $stmt = $conn->prepare($sql);
     if ($stmt){
        $stmt->execute();
@@ -34,37 +33,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
           $cid=$row['Cid'];
         }
        
-   // $sql1="INSERT INTO company_location(Cid,location1,location2) VALUES ('$cid','$location1','$location2)";
-   $sql1="INSERT INTO company_location(Cid,location) VALUES ('$cid','$location1')";
-     $sql3="INSERT INTO company_location(Cid,location) VALUES ('$cid','$location2')";
+    $sql1="INSERT INTO company_location(Cid,location1,location2) VALUES ('$cid','$location1','$location2')";
     $stmt4 = $conn->prepare($sql1);
-     $stmt5 = $conn->prepare($sql3);
     if ($stmt4){
       $stmt4->execute();}
-      if ($stmt5){
-       $stmt5->execute();}
-      }
+       }
   }
    // mysqli_stmt_close($stmt);
   }
 $conn=null;
-
-
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -87,8 +65,8 @@ $conn=null;
         <p>Registration</p>
         <p>preference List</p>
         <p>Job Application</p>
-        <p>User Guide</p>
-        <p><a href="job.php">Post Job</a></p>
+        <p><a href="applied_stud.php">Applied Students</a></p>
+        <p><a href="job1.php">Post Job</a></p>
         <a href="rlogout.php">LogOut</a>
       </div>
 
@@ -99,11 +77,6 @@ $conn=null;
         <img src="https://www.iitg.ac.in/ace/ACE/Assets/IITG_White.png">
         <h3>Placement Portal</h3>
         <a href="rlogout.php">LogOut</a>
-        <!-- <div class="logOut">
-          <form action="rlogout.php" method="POST">
-            <button type="submit" value="logout" style="font-size:18px; right-margin:30px background-color:aquamarine;">LogOut</button>
-        </div> -->
-        <!-- </form> -->
       </nav>
       <div class="profile">Company Information</div>
       <hr>
@@ -142,8 +115,6 @@ $conn=null;
 
               </div>
             </div>
-
-
         </form>
       </div>
     </div>

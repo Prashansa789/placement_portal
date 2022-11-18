@@ -1,22 +1,91 @@
+<?php
+session_start();
+
+if(!isset($_SESSION['rloggedin']) || $_SESSION['rloggedin']!= true){
+    header("location: rlogin.php");
+}
+
+require_once "../config.php";
+$login_email = $_SESSION['remail'];
+$companyID = $_SESSION['rid'];
+
+$jobtitle = "";
+$jobdesc = "";
+$salary = "";
+$vacancy = "";
+$eligiblecourse; $eligibledept;
+$cpicriteria = "";
+$examdate = "";
+$examduration = "";
+$examtype = "";
+if ($_SERVER['REQUEST_METHOD'] == "POST"){
+    $jobtitle = trim($_POST["jobtitle"]);
+    $jobdesc = trim($_POST["jobDescription"]);
+    $salary = trim($_POST["salary"]);
+    $vacancy = trim($_POST["vacancy"]);
+    $eligiblecourse = ($_POST["eligible_course"]); 
+    $eligibledept = ($_POST["eligible_dept"]);
+    $cpicriteria = trim($_POST["Ecpi"]);
+    $examdate = trim($_POST["ExamDate"]);
+    $examduration = trim($_POST["ExamDuration"]);
+    $examtype = trim($_POST["Exam_type"]);
+    
+    $sql = "INSERT INTO job (Cid, job_title, job_description, vacancy, salary, eligible_cpi) VALUES ('$companyID', '$jobtitle', '$jobdesc', '$vacancy', '$salary', '$cpicriteria')";
+    $stmt = $conn->prepare($sql);
+    if ($stmt){
+        $stmt->execute();
+        $jobID = "";
+        $sql1 = "SELECT jobid FROM job WHERE Cid = '$companyID' and job_title='$jobtitle'";
+        $stmt1 = $conn->prepare($sql1);
+        if($stmt1){
+            $stmt1->execute();
+            if($row = $stmt1->fetch()){
+                $jobID = $row['jobid'];
+            }
+
+            $sql2 = "INSERT INTO examination VALUES ( '$jobID','$companyID', '$examdate', '$examduration', '$examtype')";
+            $conn->exec($sql2);
+            foreach($eligibledept as $dept){
+                $sql3 = "INSERT INTO eligibledept (jobid, eligible_dept) VALUES ('$jobID', '$dept')";
+                $conn->exec($sql3);
+            }
+            
+            foreach($eligiblecourse as $course){
+                $sql3 = "INSERT INTO eligiblecourse (jobid, eligible_course) VALUES ('$jobID', '$course')";
+                $conn->exec($sql3);
+            }
+        }
+        $stmt1 = null;
+    }
+    $stmt = null;
+} 
+$conn = null;
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Info</title>
+    <title>Placement-Portal</title>
     <link rel="stylesheet" href="styleCinfo.css"> 
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <style>
-
-        </style>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <style> 
+</style>
 </head>
 <body>
     <div class="container">
     <div class="box1" ><div class="content">
- <p>Home</p><p>Registration</p><p>preference List</p>
-    <p>Job Application</p><p>User Guide</p></div>
- <a href="rlogout.php">LogOut</a>
+        <ul class="left_list">
+ <li><a href="recruiter.php">Home</a></li>
+ <li> <a href="job.php">Job Details</a></li>
+ <li><a href="#">preference List</a></li>
+ <li><a href="#">Job Application</a></li>
+ <li> <a href="#">User Guide</a></li>
+ <li> <a href="rlogout.php">LogOut</a></li>
+</ul>
+</div>
     </div>
 
 
@@ -24,10 +93,9 @@
         <nav class="navbar">
             <img src="https://www.iitg.ac.in/ace/ACE/Assets/IITG_White.png">
             <h3 >Placement Portal</h3><div class="logOut">
-            <button type="submit"  value="logout" style="font-size:18px; background-color:aquamarine;" >LogOut</button></div>
+            <button><a href="rlogout.php">LogOut</a></button></div>
             </nav>
             <div class="profile"  >JOB</div><hr>
-            <!-- <div class="basicinfo">Basic Information</div><hr> -->
                 <div class="info">
                 <form action="" method="POST">
                     <div>
@@ -36,14 +104,12 @@
     <label for="">Salary:</label>
   <input type="number" id="salary" name="salary"></div>
 </div>
-
   <div class="maindiv"><div><label for="jobDescription">Description:</label>
   <input type="text" id="jobDescription" name="jobDescription"></div>
   <div><label for="vacancy">Vacancy:</label>
   <input type="number" id="vacancy" name="vacancy"></div></div>
 
   <div class="maindiv">
-
   <div class="eligible_dept">
                                 <label>Eligible Departments</label>
                                 <!-- <input type="text" name="eligible_dept" placeholder="Enter Eligible Departments" required> -->
@@ -77,7 +143,7 @@
                                     <option value="MTech CSE">MTech CSE</option>
                                     <option value="MTech EEE">MTech EEE</option>
                                 </select>
-                            </div>
+                  </div>
   </div>
 
   <div class="maindiv"> <div><label for="Ecpi">Cpi Criteria:</label>
@@ -92,9 +158,9 @@
 
 <div class="maindiv"> 
     <div style="display:block;"><span>Exam Type:</span>
-  <input type="radio" id="online" name="online" value="online">
+  <input type="radio" id="online" name="Exam_type" value="online">
   <label for="online">Online</label>
-  <input type="radio" id="offline" name="offline" value="offline">
+  <input type="radio" id="offline" name="Exam_type" value="offline">
   <label for="offline">Offline</label></div>
   <div>
   <button type="submit" value="Submit">Save changes</button></div>
@@ -105,13 +171,20 @@
          </div>
          
          </div>
+
          <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script >
-      $(document).ready(function(){
+    <!-- <script>
+    function openNav() {
+    document.querySelector(".left").style.width = "200px";
+    }
+    function closeNav() {
+    document.querySelector(".left").style.width = "0";
+    }
+    $(document).ready(function(){
     $(".multiselect").select2({
-    // maximumSelectionLength: 2
-});});
-    </script>
+    // maximumSelectionLength: 2
+    }); });
+    </script>  -->
 </body>
 </html>
